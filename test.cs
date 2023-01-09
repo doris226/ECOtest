@@ -100,7 +100,7 @@ namespace 自創劇情
         void 給安眠枕頭(ActorPC pc, BitMask<失眠的人> mark)
         {
             TakeItem(pc, 11111111, 1);
-            mark.SetValue(失眠.给安眠藥, true);
+            mark.SetValue(失眠.給安眠枕頭, true);
             Say(pc, 158, "哦哦？這枕頭...", "失眠的人");
             Say(pc, 158, "絲滑柔順的觸感！", "失眠的人");
             Say(pc, 158, "躺起來柔軟蓬鬆！", "失眠的人");
