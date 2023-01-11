@@ -19,13 +19,8 @@ namespace SagaScript.M30020001
         {
             BitMask<DFHJFlags> mask = new BitMask<DFHJFlags>(pc.CMask["DFHJ"]);
             int count = 0;
-            if (pc.Account.GMLevel >= 100)
-            {
-                if (Select(pc, "要怎么做呢？", "", "进入管理模式", "算了") == 1)
-                {
-                    管理用(pc);
-                    return;
-                }
+            if(SInt["獎品A"] == 0){
+                Again();
             }
             if (SInt["Mamasan_Carapace"] < 100000)
             {
@@ -49,20 +44,10 @@ namespace SagaScript.M30020001
                         "找到10万个就开店了。$R;");
                     return;
                 }
-                switch (Select(pc, "欢迎！", "", "搜集甲壳", "现在搜集了多少甲壳？", "什么也不做。"))
+                switch (Select(pc, "欢迎！", "", "扭蛋", "查看目前剩餘獎勵", "什么也不做。"))
                 {
                     case 1:
-                        foreach (SagaDB.Item.Item i in NPCTrade(pc))
-                        {
-                            if (i.ItemID == 10007500)
-                                count += i.Stack;
-                        }
-                        if (count > 0)
-                        {
-                            Say(pc, 131, string.Format("交给了{0}个甲壳", count));
-                            SInt["Mamasan_Carapace"] += count;
-                        }
-                        SaveServerSvar();
+                        start();
                         break;
                     case 2:
                         查看收集数(pc);
@@ -72,525 +57,61 @@ namespace SagaScript.M30020001
                 }
                 return;
             }
-            if (SInt["Mamasan_Carapace"] < 200000)
-            {
-                if (!mask.Test(DFHJFlags.甲壳收集十万))
-                {
-                    mask.SetValue(DFHJFlags.甲壳收集十万, true);
-                    Say(pc, 131, "有很多可爱小狗的宠物店$R;" +
-                        "快要开幕了$R;" +
-                        "$P只要集齐10万个『甲壳』，$R还会贩卖宠物食粮呢$R;");
-                    OpenShopBuy(pc, 87);
-                    Say(pc, 131, "谢谢$R;");
-                    return;
-                }
-                switch (Select(pc, "欢迎！", "", "看东西", "搜集甲壳", "现在搜集了多少甲壳？", "什么也不做。"))
-                {
-                    case 1:
-                        OpenShopBuy(pc, 87);
-                        Say(pc, 131, "谢谢$R;");
-                        break;
-                    case 2:
-                        foreach (SagaDB.Item.Item i in NPCTrade(pc))
-                        {
-                            if (i.ItemID == 10007500)
-                                count += i.Stack;
-                        }
-                        if (count > 0)
-                        {
-                            Say(pc, 131, string.Format("交给了{0}个甲壳", count));
-                            SInt["Mamasan_Carapace"] += count;
-                            SaveServerSvar();
-                        }
-                        break;
-                    case 3:
-                        查看收集数(pc);
-                        break;
-                    case 4:
-                        break;
-                }
-                return;
-            }
-            if (SInt["Mamasan_Carapace"] < 500000)
-            {
-                if (!mask.Test(DFHJFlags.甲壳收集二十万))
-                {
-                    mask.SetValue(DFHJFlags.甲壳收集二十万, true);
-                    Say(pc, 131, "已经有20万个甲壳了！$R;" +
-                        "$R要出售美味可口的『宠物食粮』啊！$R;" +
-                        "$R还有植物也算是宠物呢$R听说，客人会根据需要，$R购买不同的『植物营养剂』。$R;" +
-                        "集齐30万个『甲壳』的话$R就卖新一批小狗吧$R;");
-                    OpenShopBuy(pc, 100);
-                    Say(pc, 131, "再来啊！$R;");
-                    return;
-                }
-                switch (Select(pc, "欢迎！", "", "看东西", "搜集甲壳", "现在搜集了多少甲壳？", "什么也不做。"))
-                {
-                    case 1:
-                        OpenShopBuy(pc, 100);
-                        Say(pc, 131, "再来啊！$R;");
-                        break;
-                    case 2:
-                        foreach (SagaDB.Item.Item i in NPCTrade(pc))
-                        {
-                            if (i.ItemID == 10007500)
-                                count += i.Stack;
-                        }
-                        if (count > 0)
-                        {
-                            Say(pc, 131, string.Format("交给了{0}个甲壳", count));
-                            SInt["Mamasan_Carapace"] += count;
-                            SaveServerSvar();
-                        }
-                        break;
-                    case 3:
-                        查看收集数(pc);
-                        break;
-                    case 4:
-                        break;
-                }
-                return;
-            }
-            if (SInt["Mamasan_Carapace"] < 550000)
-            {
-                if (!mask.Test(DFHJFlags.甲壳收集五十万))
-                {
-                    mask.SetValue(DFHJFlags.甲壳收集五十万, true);
-                    Say(pc, 131, "已经有50万个甲壳了！$R;" +
-                        "$R新的小狗也到了$R;");
-                    OpenShopBuy(pc, 101);
-                    Say(pc, 131, "再来啊$R;");
-                    return;
-                }
-                switch (Select(pc, "欢迎！", "", "看东西", "搜集甲壳", "现在搜集了多少甲壳？", "什么也不做。"))
-                {
-                    case 1:
-                        OpenShopBuy(pc, 101);
-                        Say(pc, 131, "再来啊$R;");
-                        break;
-                    case 2:
-                        foreach (SagaDB.Item.Item i in NPCTrade(pc))
-                        {
-                            if (i.ItemID == 10007500)
-                                count += i.Stack;
-                        }
-                        if (count > 0)
-                        {
-                            Say(pc, 131, string.Format("交给了{0}个甲壳", count));
-                            SInt["Mamasan_Carapace"] += count;
-                            SaveServerSvar();
-                        }
-                        break;
-                    case 3:
-                        查看收集数(pc);
-                        break;
-                    case 4:
-                        break;
-                }
-                return;
-            }
-            if (SInt["Mamasan_Carapace"] < 600000)
-            {
-                if (!mask.Test(DFHJFlags.甲壳收集五十五万))
-                {
-                    mask.SetValue(DFHJFlags.甲壳收集五十五万, true);
-                    Say(pc, 131, "已经有55万个甲壳了！$R;" +
-                        "$R新商品也到货了$R;");
-                    OpenShopBuy(pc, 160);
-                    Say(pc, 131, "再来啊！$R;");
-                    return;
-                }
-                switch (Select(pc, "欢迎！", "", "看东西", "搜集甲壳", "现在搜集了多少甲壳？", "什么也不做。"))
-                {
-                    case 1:
-                        OpenShopBuy(pc, 160);
-                        Say(pc, 131, "再来啊！$R;");
-                        break;
-                    case 2:
-                        foreach (SagaDB.Item.Item i in NPCTrade(pc))
-                        {
-                            if (i.ItemID == 10007500)
-                                count += i.Stack;
-                        }
-                        if (count > 0)
-                        {
-                            Say(pc, 131, string.Format("交给了{0}个甲壳", count));
-                            SInt["Mamasan_Carapace"] += count;
-                            SaveServerSvar();
-                        }
-                        break;
-                    case 3:
-                        查看收集数(pc);
-                        break;
-                    case 4:
-                        break;
-                }
-                return;
-            }
-            if (SInt["Mamasan_Carapace"] < 650000)
-            {
-                if (!mask.Test(DFHJFlags.甲壳收集六十万))
-                {
-                    mask.SetValue(DFHJFlags.甲壳收集六十万, true);
-                    Say(pc, 131, "已经有60万个甲壳了！$R;" +
-                        "$R新商品也到货了$R;");
-                    OpenShopBuy(pc, 161);
-                    Say(pc, 131, "再来啊$R;");
-                    return;
-                }
-                switch (Select(pc, "欢迎！", "", "看东西", "搜集甲壳", "现在搜集了多少甲壳？", "什么也不做。"))
-                {
-                    case 1:
-                        OpenShopBuy(pc, 161);
-                        Say(pc, 131, "再来啊$R;");
-                        break;
-                    case 2:
-                        foreach (SagaDB.Item.Item i in NPCTrade(pc))
-                        {
-                            if (i.ItemID == 10007500)
-                                count += i.Stack;
-                        }
-                        if (count > 0)
-                        {
-                            Say(pc, 131, string.Format("交给了{0}个甲壳", count));
-                            SInt["Mamasan_Carapace"] += count;
-                        }
-                        break;
-                    case 3:
-                        查看收集数(pc);
-                        break;
-                    case 4:
-                        break;
-                }
-                return;
-            }
-            if (SInt["Mamasan_Carapace"] < 700000)
-            {
-                if (!mask.Test(DFHJFlags.甲壳收集六十五万))
-                {
-                    mask.SetValue(DFHJFlags.甲壳收集六十五万, true);
-                    Say(pc, 131, "已经有65万个甲壳了！$R;" +
-                        "$R新商品也到货了$R;");
-                    OpenShopBuy(pc, 162);
-                    Say(pc, 131, "再来啊$R;");
-                    return;
-                }
-                switch (Select(pc, "欢迎！", "", "看东西", "搜集甲壳", "现在搜集了多少甲壳？", "什么也不做。"))
-                {
-                    case 1:
-                        OpenShopBuy(pc, 162);
-                        Say(pc, 131, "再来啊$R;");
-                        break;
-                    case 2:
-                        foreach (SagaDB.Item.Item i in NPCTrade(pc))
-                        {
-                            if (i.ItemID == 10007500)
-                                count += i.Stack;
-                        }
-                        if (count > 0)
-                        {
-                            Say(pc, 131, string.Format("交给了{0}个甲壳", count));
-                            SInt["Mamasan_Carapace"] += count;
-                        }
-                        break;
-                    case 3:
-                        查看收集数(pc);
-                        break;
-                    case 4:
-                        break;
-                }
-                return;
-            }
-            if (SInt["Mamasan_Carapace"] < 750000)
-            {
-                if (!mask.Test(DFHJFlags.甲壳收集七十万))
-                {
-                    mask.SetValue(DFHJFlags.甲壳收集七十万, true);
-                    Say(pc, 131, "已经有70万个甲壳了！$R;" +
-                        "$R新商品也到货了$R;");
-                    OpenShopBuy(pc, 163);
-                    Say(pc, 131, "再来啊！$R;");
-                    return;
-                }
-                switch (Select(pc, "欢迎！", "", "看东西", "搜集甲壳", "现在搜集了多少甲壳？", "什么也不做。"))
-                {
-                    case 1:
-                        OpenShopBuy(pc, 163);
-                        Say(pc, 131, "再来啊！$R;");
-                        break;
-                    case 2:
-                        foreach (SagaDB.Item.Item i in NPCTrade(pc))
-                        {
-                            if (i.ItemID == 10007500)
-                                count += i.Stack;
-                        }
-                        if (count > 0)
-                        {
-                            Say(pc, 131, string.Format("交给了{0}个甲壳", count));
-                            SInt["Mamasan_Carapace"] += count;
-                        }
-                        break;
-                    case 3:
-                        查看收集数(pc);
-                        break;
-                    case 4:
-                        break;
-                }
-                return;
-            }
-            if (SInt["Mamasan_Carapace"] < 800000
-            )
-            {
-                if (!mask.Test(DFHJFlags.甲壳收集七十五万))
-                {
-                    mask.SetValue(DFHJFlags.甲壳收集七十五万, true);
-                    Say(pc, 131, "已经有75万个甲壳了！$R;" +
-                        "$R新商品也到货了$R;");
-                    OpenShopBuy(pc, 164);
-                    Say(pc, 131, "再来啊$R;");
-                    return;
-                }
-                switch (Select(pc, "欢迎！", "", "看东西", "搜集甲壳", "现在搜集了多少甲壳？", "什么也不做。"))
-                {
-                    case 1:
-                        OpenShopBuy(pc, 164);
-                        Say(pc, 131, "再来啊$R;");
-                        break;
-                    case 2:
-                        foreach (SagaDB.Item.Item i in NPCTrade(pc))
-                        {
-                            if (i.ItemID == 10007500)
-                                count += i.Stack;
-                        }
-                        if (count > 0)
-                        {
-                            Say(pc, 131, string.Format("交给了{0}个甲壳", count));
-                            SInt["Mamasan_Carapace"] += count;
-                        }
-                        break;
-                    case 3:
-                        查看收集数(pc);
-                        break;
-                    case 4:
-                        break;
-                }
-                return;
-            }
-            if (SInt["Mamasan_Carapace"] < 900000)
-            {
-                if (!mask.Test(DFHJFlags.甲壳收集八十万))
-                {
-                    mask.SetValue(DFHJFlags.甲壳收集八十万, true);
-                    Say(pc, 131, "已经有80万个甲壳了！$R;" +
-                        "$R新商品也到货了$R;");
-                    OpenShopBuy(pc, 165);
-                    Say(pc, 131, "再来啊！$R;");
-                    return;
-                }
-                switch (Select(pc, "欢迎！", "", "看东西", "搜集甲壳", "现在搜集了多少甲壳？", "什么也不做。"))
-                {
-                    case 1:
-                        OpenShopBuy(pc, 165);
-                        Say(pc, 131, "再来啊！$R;");
-                        break;
-                    case 2:
-                        foreach (SagaDB.Item.Item i in NPCTrade(pc))
-                        {
-                            if (i.ItemID == 10007500)
-                                count += i.Stack;
-                        }
-                        if (count > 0)
-                        {
-                            Say(pc, 131, string.Format("交给了{0}个甲壳", count));
-                            SInt["Mamasan_Carapace"] += count;
-                        }
-                        break;
-                    case 3:
-                        查看收集数(pc);
-                        break;
-                    case 4:
-                        break;
-                }
-                return;
-            }
-            if (SInt["Mamasan_Carapace"] < 1000000)
-            {
-                if (!mask.Test(DFHJFlags.甲壳收集九十万))
-                {
-                    mask.SetValue(DFHJFlags.甲壳收集九十万, true);
-                    Say(pc, 131, "已经有90万个甲壳了！$R;" +
-                        "$R新商品也到货了$R;");
-                    OpenShopBuy(pc, 194);
-                    Say(pc, 131, "再来啊$R;");
-                    return;
-                }
-                switch (Select(pc, "欢迎！", "", "看东西", "搜集甲壳", "现在搜集了多少甲壳？", "什么也不做。"))
-                {
-                    case 1:
-                        OpenShopBuy(pc, 194);
-                        Say(pc, 131, "再来啊$R;");
-                        break;
-                    case 2:
-                        foreach (SagaDB.Item.Item i in NPCTrade(pc))
-                        {
-                            if (i.ItemID == 10007500)
-                                count += i.Stack;
-                        }
-                        if (count > 0)
-                        {
-                            Say(pc, 131, string.Format("交给了{0}个甲壳", count));
-                            SInt["Mamasan_Carapace"] += count;
-                        }
-                        break;
-                    case 3:
-                        查看收集数(pc);
-                        break;
-                    case 4:
-                        break;
-                }
-                return;
-            }
-
-            if (!mask.Test(DFHJFlags.甲壳收集一百万))
-            {
-                mask.SetValue(DFHJFlags.甲壳收集一百万, true);
-                Say(pc, 131, "真是感谢大家啊，$R;" +
-                    "终於有100万个甲壳了！$R;" +
-                    "$R新商品也到货了$R;");
-                OpenShopBuy(pc, 195);
-                Say(pc, 131, "再来啊！$R;");
-                return;
-            }
-            switch (Select(pc, "欢迎！", "", "看东西(1号店)", "看东西(2号店)", "搜集甲壳", "现在搜集了多少甲壳？", "什么也不做。"))
-            {
-                case 1:
-                    OpenShopBuy(pc, 194);
-                    Say(pc, 131, "再来啊$R;");
-                    break;
-                case 2:
-                    OpenShopBuy(pc, 195);
-                    Say(pc, 131, "再来啊！$R;");
-                    break;
-                case 3:
-                    foreach (SagaDB.Item.Item i in NPCTrade(pc))
-                    {
-                        if (i.ItemID == 10007500)
-                            count += i.Stack;
-                    }
-                    if (count > 0)
-                    {
-                        Say(pc, 131, string.Format("交给了{0}个甲壳", count));
-                        SInt["Mamasan_Carapace"] += count;
-                    }
-                    break;
-                case 4:
-                    查看收集数(pc);
-                    break;
-                case 5:
-                    break;
-            }
-        }
-        void 查看收集数(ActorPC pc)
+        //重新設置獎品數量
+        void Again()
         {
-            BitMask<DFHJFlags> mask = new BitMask<DFHJFlags>(pc.CMask["DFHJ"]);
-            Say(pc, 131, "现在……$R;" +
-                "" + SInt["Mamasan_Carapace"] + "个甲壳！$R;");
-            if (mask.Test(DFHJFlags.甲壳收集一百万))
-            {
-                Say(pc, 131, "真的谢谢您。$R幸好有您，$R我们家有很多『甲壳』了$R;" +
-                    "$R下次还有事的话$R还要拜託您呢$R;");
-                return;
-            }
-            if (mask.Test(DFHJFlags.甲壳收集九十万))
-            {
-                Say(pc, 131, "集齐100万个『甲壳』的话$R;" +
-                    "就卖宠物喜欢的道具吧$R;");
-                return;
-            }
-            if (mask.Test(DFHJFlags.甲壳收集八十万))
-            {
-                Say(pc, 131, "集齐90万个『甲壳』的话$R;" +
-                    "就卖宠物喜欢的道具吧$R;");
-                return;
-            }
-            if (mask.Test(DFHJFlags.甲壳收集七十五万))
-            {
-
-                Say(pc, 131, "集齐80万个『甲壳』的话$R;" +
-                    "就卖宠物喜欢的道具吧$R;");
-
-                return;
-            }
-            if (mask.Test(DFHJFlags.甲壳收集七十万))
-            {
-                Say(pc, 131, "集齐75万个『甲壳』的话$R;" +
-                    "就卖宠物喜欢的道具吧$R;");
-                return;
-            }
-            if (mask.Test(DFHJFlags.甲壳收集六十五万))
-            {
-                Say(pc, 131, "集齐70万个『甲壳』的话$R;" +
-                    "就卖宠物喜欢的道具吧$R;");
-                return;
-            }
-            if (mask.Test(DFHJFlags.甲壳收集六十万))
-            {
-                Say(pc, 131, "集齐65万个『甲壳』的话$R;" +
-                    "就卖宠物喜欢的道具吧$R;");
-                return;
-            }
-            if (mask.Test(DFHJFlags.甲壳收集五十五万))
-            {
-                Say(pc, 131, "集齐60万个『甲壳』的话$R;" +
-                    "就卖宠物喜欢的道具吧$R;");
-                return;
-            }
-            if (mask.Test(DFHJFlags.甲壳收集五十万))
-            {
-                Say(pc, 131, "集齐55万个『甲壳』的话$R;" +
-                    "就卖宠物喜欢的道具吧$R;");
-                return;
-            }
-            if (mask.Test(DFHJFlags.甲壳收集二十万))
-            {
-                Say(pc, 131, "集齐50万个『甲壳』的话$R;" +
-                    "就卖新一批小狗吧$R;");
-                return;
-            }
-            if (mask.Test(DFHJFlags.甲壳收集十万))
-            {
-                Say(pc, 131, "集齐50万个『甲壳』的话$R;" +
-                    "就卖宠物食粮吧$R;" +
-                    "$P还有，新一批小狗$R;" +
-                    "好像快要出生了！$R;" +
-                    "$R要是开始贩卖宠物食粮$R;" +
-                    "希望也可以增加小狗的品种阿$R;");
-                return;
-            }
-            Say(pc, 131, "找到10万个『甲壳』$R;" +
-                "就可以开店了！$R;");
+            SInt["獎品A"] = 1;
+            SInt["獎品B"] = 2;
+            SInt["獎品C"] = 3;
+            SInt["獎品D"] = 3;
+            SInt["獎品E"] = 3;
         }
-        void 管理用(ActorPC pc)
-        {
+        //開始抽獎
+        void start(){
+            //設定獎品機率（每項獎品有幾支籤）
+            Dictionary<string, int> probability = new Dictionary<string, int>(){};
+            probability.Add("獎品A", 5);
+            probability.Add("獎品B", 10);
+            probability.Add("獎品C", 15);
+            probability.Add("獎品D", 20);
+            probability.Add("獎品E", 25);
 
-            switch (Select(pc, "怎么办呢？", "", "增加", "减少", "什么也不做。"))
+            //如果獎品沒了則刪除
+            if(SInt["獎品B"] == 0){
+                probability.Remove("獎品B");
+            }
+            if(SInt["獎品C"] == 0){
+                probability.Remove("獎品C");
+            }
+            if(SInt["獎品D"] == 0){
+                probability.Remove("獎品D");
+            }
+            if(SInt["獎品E"] == 0){
+                probability.Remove("獎品E");
+            }
+
+            //計算全機率（共有幾支籤）後隨機抽取一個數字（抽一支）
+            int Allpro = 0;
+            foreach (KeyValuePair<string, int> item in probability)
             {
-                case 1:
-                    SInt["Mamasan_Carapace"] += int.Parse(InputBox(pc, "输入要增加的数量", InputType.ItemCode));
+                Allpro += item.Value;
+            }
+            Random rand = new Random();
+            int nowpro = rand.Next(0, Allpro);
+            int howget = 0;
+            foreach (KeyValuePair<string, int> item in probability)
+            {
+                if(howget + item.Value >= YY){
+                    //Console.WriteLine("得到" + item.Key);
+                    GiveItem(pc, 1234567, 1);
+                    SInt[item.Key]--;
+                    SaveServerSvar();
                     break;
-                case 2:
-                    int count = int.Parse(InputBox(pc, "输入要减少的数量", InputType.ItemCode));
-                    if (SInt["Mamasan_Carapace"] > count)
-                    {
-                        SInt["Mamasan_Carapace"] -= count;
-                    }
-                    else
-                    {
-                        SInt["Mamasan_Carapace"] = 0;
-                    }
-                    break;
-                case 3:
-                    break;
+                }
+                else
+                {
+                    howget += item.Value;
+                }
             }
         }
     }
