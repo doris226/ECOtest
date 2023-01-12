@@ -17,46 +17,22 @@ namespace SagaScript.M30020001 //不知道取什麼名
 
         public override void OnEvent(ActorPC pc)
         {
-            BitMask<DFHJFlags> mask = new BitMask<DFHJFlags>(pc.CMask["DFHJ"]);
-            int count = 0;
+            BitMask<扭蛋> mask = new BitMask<扭蛋>(pc.CMask["扭蛋抽獎"]);
             if(SInt["獎品A"] == 0){
                 Again();
             }
-            if (SInt["Mamasan_Carapace"] < 100000)
+            switch (Select(pc, "要做什麼呢？", "", "扭蛋", "查看目前剩餘獎勵", "什麼也不做"))
             {
-                if (!mask.Test(DFHJFlags.甲壳收集开始))
-                {
-                    mask.SetValue(DFHJFlags.甲壳收集开始, true);
-                    Say(pc, 131, "我的儿子竟然$R;" +
-                        "偷养了小狗呢。$R;");
-                    Say(pc, 131, "妈妈对不起。$R;");
-                    Say(pc, 131, "本来想扔掉的。$R;" +
-                        "后来有了感情……$R;" +
-                        "$R汪汪的叫著，不是很可爱吗?$R;" +
-                        "$P现在，没有小狗的话，感觉不自在了$R;" +
-                        "所以干脆想开个宠物商店呢。$R;" +
-                        "$P汪汪很喜欢『甲壳』$R;" +
-                        "甲壳多的话就可以开店了。$R;" +
-                        "$R一个人搜集起来很困难。$R;" +
-                        "$P如果见到的话$R;" +
-                        "别扔掉，给我就好了$R;" +
-                        "$P目标是10万个。$R;" +
-                        "找到10万个就开店了。$R;");
-                    return;
-                }
-                switch (Select(pc, "要做什麼呢？", "", "扭蛋", "查看目前剩餘獎勵", "什麼也不做"))
-                {
-                    case 1:
-                        start(pc);
-                        break;
-                    case 2:
-                        查看目前剩餘獎勵(pc);
-                        break;
-                    case 3:
-                        break;
-                }
-                return;
+                case 1:
+                    start(pc);
+                    break;
+                case 2:
+                    查看目前剩餘獎勵(pc);
+                    break;
+                case 3:
+                    break;
             }
+
         //重新設置獎品數量
         void Again()
         {
