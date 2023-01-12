@@ -6,13 +6,13 @@ using SagaDB.Actor;
 using SagaMap.Scripting;
 
 using SagaScript.Chinese.Enums;
-namespace SagaScript.M30020001
+namespace SagaScript.M30020001 //不知道取什麼名
 {
-    public class S11000330 : Event
+    public class S11000330 : Event//不知道取什麼名
     {
-        public S11000330()
+        public S11000330()//不知道取什麼名
         {
-            this.EventID = 11000330;
+            this.EventID = 11000330;//不知道取什麼名
         }
 
         public override void OnEvent(ActorPC pc)
@@ -44,13 +44,13 @@ namespace SagaScript.M30020001
                         "找到10万个就开店了。$R;");
                     return;
                 }
-                switch (Select(pc, "欢迎！", "", "扭蛋", "查看目前剩餘獎勵", "什么也不做。"))
+                switch (Select(pc, "要做什麼呢？", "", "扭蛋", "查看目前剩餘獎勵", "什麼也不做"))
                 {
                     case 1:
-                        start();
+                        start(pc);
                         break;
                     case 2:
-                        查看收集数(pc);
+                        查看目前剩餘獎勵(pc);
                         break;
                     case 3:
                         break;
@@ -67,16 +67,16 @@ namespace SagaScript.M30020001
             SInt["獎品E"] = 3;
         }
         //開始抽獎
-        void start(){
-            //設定獎品機率（每項獎品有幾支籤）
+        void start(ActorPC pc){
+            //設定獎品機率
             Dictionary<string, int> probability = new Dictionary<string, int>(){};
-            probability.Add("獎品A", 5);
-            probability.Add("獎品B", 10);
-            probability.Add("獎品C", 15);
-            probability.Add("獎品D", 20);
-            probability.Add("獎品E", 25);
+            probability.Add("獎品A", 5);//5%
+            probability.Add("獎品B", 15);//10%
+            probability.Add("獎品C", 35);//20%
+            probability.Add("獎品D", 60);//25%
+            probability.Add("獎品E", 100);//40%
 
-            //如果獎品沒了則刪除
+            //如果獎品沒了則排除
             if(SInt["獎品B"] == 0){
                 probability.Remove("獎品B");
             }
@@ -90,29 +90,25 @@ namespace SagaScript.M30020001
                 probability.Remove("獎品E");
             }
 
-            //計算全機率（共有幾支籤）後隨機抽取一個數字（抽一支）
-            int Allpro = 0;
-            foreach (KeyValuePair<string, int> item in probability)
-            {
-                Allpro += item.Value;
-            }
             Random rand = new Random();
-            int nowpro = rand.Next(0, Allpro);
-            int howget = 0;
+            int nowpro = rand.Next(0, probability["獎品E"]);
             foreach (KeyValuePair<string, int> item in probability)
             {
-                if(howget + item.Value >= YY){
-                    //Console.WriteLine("得到" + item.Key);
+                if(item.Value - nowpro >= 0){
                     GiveItem(pc, 1234567, 1);
                     SInt[item.Key]--;
                     SaveServerSvar();
                     break;
                 }
-                else
-                {
-                    howget += item.Value;
-                }
             }
+        }
+        void 查看目前剩餘獎勵(){
+            Say(pc, 131, "目前剩餘獎勵$R;" +
+            "獎品A　目前剩餘" + SInt["獎品A"] + "個" + "$R;" +
+            "獎品B　目前剩餘" + SInt["獎品B"] + "個" + "$R;" +
+            "獎品C　目前剩餘" + SInt["獎品C"] + "個" + "$R;" +
+            "獎品D　目前剩餘" + SInt["獎品D"] + "個" + "$R;" +          
+            "獎品E　目前剩餘" + SInt["獎品E"] + "個" + "$R;");
         }
     }
 }
