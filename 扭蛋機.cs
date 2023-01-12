@@ -41,6 +41,7 @@ namespace SagaScript.M30020001 //不知道取什麼名
             SInt["獎品C"] = 3;
             SInt["獎品D"] = 3;
             SInt["獎品E"] = 3;
+            SaveServerSvar();
         }
         //開始抽獎
         void start(ActorPC pc){
@@ -74,6 +75,10 @@ namespace SagaScript.M30020001 //不知道取什麼名
                     GiveItem(pc, 10000604, 1);
                     SInt[item.Key]--;
                     SaveServerSvar();
+                    
+                    if(SInt["獎品A"] == 0){
+                        Again();
+                    }
                     break;
                 }
             }
