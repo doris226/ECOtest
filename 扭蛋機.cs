@@ -71,7 +71,7 @@ namespace SagaScript.M30020001 //不知道取什麼名
             foreach (KeyValuePair<string, int> item in probability)
             {
                 if(item.Value - nowpro >= 0){
-                    GiveItem(pc, 1234567, 1);
+                    GiveItem(pc, 10000604, 1);
                     SInt[item.Key]--;
                     SaveServerSvar();
                     break;
