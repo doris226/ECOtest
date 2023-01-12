@@ -45,6 +45,12 @@ namespace SagaScript.M30020001 //不知道取什麼名
         }
         //開始抽獎
         void start(ActorPC pc){
+            Dictionary<string, int> gift = new Dictionary<string, int>(){};
+            gift.Add("獎品A", 10001101);
+            gift.Add("獎品B", 10001102);
+            gift.Add("獎品C", 10001103);
+            gift.Add("獎品D", 10001104);
+            gift.Add("獎品E", 10001105);
             //設定獎品機率
             Dictionary<string, int> probability = new Dictionary<string, int>(){};
             probability.Add("獎品A", 5);//5%
@@ -72,7 +78,7 @@ namespace SagaScript.M30020001 //不知道取什麼名
             foreach (KeyValuePair<string, int> item in probability)
             {
                 if(item.Value - nowpro >= 0){
-                    GiveItem(pc, 10000604, 1);
+                    GiveItem(pc, gift[item.Key], 1);
                     SInt[item.Key]--;
                     SaveServerSvar();
                     
