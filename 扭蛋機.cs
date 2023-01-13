@@ -17,7 +17,6 @@ namespace SagaScript.M30020001 //不知道取什麼名
 
         public override void OnEvent(ActorPC pc)
         {
-            BitMask<扭蛋> mask = new BitMask<扭蛋>(pc.CMask["扭蛋抽獎"]);
             if(SInt["獎品A"] == 0){
                 Again();
             }
