@@ -17,85 +17,139 @@ namespace SagaScript.M30020001 //不知道取什麼名
 
         public override void OnEvent(ActorPC pc)
         {
-            BitMask<扭蛋> mask = new BitMask<扭蛋>(pc.CMask["扭蛋抽獎"]);
-            if(SInt["獎品A"] == 0){
-                Again();
-            }
-            switch (Select(pc, "要做什麼呢？", "", "扭蛋", "查看目前剩餘獎勵", "什麼也不做"))
+            page1(pc);
+        }
+        
+        void page1(ActorPC pc)
+        {
+            switch (Select(pc, "请选择", "", "行刑者曲剑", "胜利之剑", "激光剑", "妖魔细剑", "机神爪", "塔盾", "猫猫护手盾", "圣枪", "龙矛", "下一页"))
             {
                 case 1:
-                    start(pc);
+                    GiveItem(pc, 60023700, 1);
+                    TakeItem(pc, 10021600, 1);
                     break;
                 case 2:
-                    查看目前剩餘獎勵(pc);
+                    GiveItem(pc, 60023800, 1);
+                    TakeItem(pc, 10021600, 1);
                     break;
                 case 3:
+                    GiveItem(pc, 60021400, 1);
+                    TakeItem(pc, 10021600, 1);
+                    break;
+                case 4:
+                    GiveItem(pc, 60024000, 1);
+                    TakeItem(pc, 10021600, 1);
+                    break;
+                case 5:
+                    GiveItem(pc, 60023900, 1);
+                    TakeItem(pc, 10021600, 1);
+                    break;
+                case 6:
+                    GiveItem(pc, 60030600, 1);
+                    TakeItem(pc, 10021600, 1);
+                    break;
+                case 7:
+                    GiveItem(pc, 60031500, 1);
+                    TakeItem(pc, 10021600, 1);
+                    break;
+                case 8:
+                    GiveItem(pc, 60061500, 1);
+                    TakeItem(pc, 10021600, 1);
+                    break;
+                case 9:
+                    GiveItem(pc, 60061600, 1);
+                    TakeItem(pc, 10021600, 1);
+                    break;
+                case 10:
+                    page2(pc);
                     break;
             }
-
-        //重新設置獎品數量
-        void Again()
+        }
+        void page2(ActorPC pc)
         {
-            SInt["獎品A"] = 1;
-            SInt["獎品B"] = 2;
-            SInt["獎品C"] = 3;
-            SInt["獎品D"] = 3;
-            SInt["獎品E"] = 3;
-            SaveServerSvar();
-        }
-        //開始抽獎
-        void start(ActorPC pc){
-            Dictionary<string, int> gift = new Dictionary<string, int>(){};
-            gift.Add("獎品A", 10001101);
-            gift.Add("獎品B", 10001102);
-            gift.Add("獎品C", 10001103);
-            gift.Add("獎品D", 10001104);
-            gift.Add("獎品E", 10001105);
-            //設定獎品機率
-            Dictionary<string, int> probability = new Dictionary<string, int>(){};
-            probability.Add("獎品A", 5);//5%
-            probability.Add("獎品B", 15);//10%
-            probability.Add("獎品C", 35);//20%
-            probability.Add("獎品D", 60);//25%
-            probability.Add("獎品E", 100);//40%
-
-            //如果獎品沒了則排除
-            if(SInt["獎品B"] == 0){
-                probability.Remove("獎品B");
-            }
-            if(SInt["獎品C"] == 0){
-                probability.Remove("獎品C");
-            }
-            if(SInt["獎品D"] == 0){
-                probability.Remove("獎品D");
-            }
-            if(SInt["獎品E"] == 0){
-                probability.Remove("獎品E");
-            }
-
-            Random rand = new Random();
-            int nowpro = rand.Next(0, probability["獎品E"]);
-            foreach (KeyValuePair<string, int> item in probability)
+            switch (Select(pc, "请选择", "", "上一页", "弑龙弓", "普拉兹重弩", "河豚锤", "肉锤", "第七天堂", "巨龙战斧", "不可思议的魔杖", "下一页"))
             {
-                if(item.Value - nowpro >= 0){
-                    GiveItem(pc, gift[item.Key], 1);
-                    SInt[item.Key]--;
-                    SaveServerSvar();
-                    
-                    if(SInt["獎品A"] == 0){
-                        Again();
-                    }
+                case 1:
+                    page1(pc);
                     break;
-                }
+                case 2:
+                    GiveItem(pc, 60092200, 1);
+                    TakeItem(pc, 10021600, 1);
+                    break;
+                case 3:
+                    GiveItem(pc, 60092300, 1);
+                    TakeItem(pc, 10021600, 1);
+                    break;
+                case 4:
+                    GiveItem(pc, 60043000, 1);
+                    TakeItem(pc, 10021600, 1);
+                    break;
+                case 5:
+                    GiveItem(pc, 60043100, 1);
+                    TakeItem(pc, 10021600, 1);
+                    break;
+                case 6:
+                    GiveItem(pc, 60051900, 1);
+                    TakeItem(pc, 10021600, 1);
+                    break;
+                case 7:
+                    GiveItem(pc, 60052000, 1);
+                    TakeItem(pc, 10021600, 1);
+                    break;
+                case 8:
+                    GiveItem(pc, 60072000, 1);
+                    TakeItem(pc, 10021600, 1);
+                    break;
+                case 9:
+                    page3(pc);
+                    break;
             }
         }
-        void 查看目前剩餘獎勵(){
-            Say(pc, 131, "目前剩餘獎勵$R;" +
-            "獎品A　目前剩餘" + SInt["獎品A"] + "個" + "$R;" +
-            "獎品B　目前剩餘" + SInt["獎品B"] + "個" + "$R;" +
-            "獎品C　目前剩餘" + SInt["獎品C"] + "個" + "$R;" +
-            "獎品D　目前剩餘" + SInt["獎品D"] + "個" + "$R;" +          
-            "獎品E　目前剩餘" + SInt["獎品E"] + "個" + "$R;");
+        
+        void page3(ActorPC pc)
+        {
+            switch (Select(pc, "请选择", "", "上一页", "终末之书", "黑金账簿", "惊魂手枪", "惊魂手枪（双枪）", "终末之吻步枪", "古代飞刀", "女王大人的皮鞭", "电子竖琴", "乐园卡"))
+            {
+                case 1:
+                    page2(pc);
+                    break;
+                case 2:
+                    GiveItem(pc, 60081400, 1);
+                    TakeItem(pc, 10021600, 1);
+                    break;
+                case 3:
+                    GiveItem(pc, 60082000, 1);
+                    TakeItem(pc, 10021600, 1);
+                    break;
+                case 4:
+                    GiveItem(pc, 60092400, 1);
+                    TakeItem(pc, 10021600, 1);
+                    break;
+                case 5:
+                    GiveItem(pc, 60092500, 1);
+                    TakeItem(pc, 10021600, 1);
+                    break;
+                case 6:
+                    GiveItem(pc, 60092600, 1);
+                    TakeItem(pc, 10021600, 1);
+                    break;
+                case 7:
+                    GiveItem(pc, 61010800, 50);
+                    TakeItem(pc, 10021600, 1);
+                    break;
+                case 8:
+                    GiveItem(pc, 61030100, 1);
+                    TakeItem(pc, 10021600, 1);
+                    break;
+                case 9:
+                    GiveItem(pc, 61040400, 1);
+                    TakeItem(pc, 10021600, 1);
+                    break;
+                case 10:
+                    GiveItem(pc, 61050055, 50);
+                    TakeItem(pc, 10021600, 1);
+                    break;
+            }
         }
     }
 }
